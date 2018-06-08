@@ -48,12 +48,14 @@ public class Queue {
     }
     
     public int length() {
+        if (isEmpty())
+            return 0;
         Node temp = head;
         int length = 1;
         while (temp.next != null) {
             temp = temp.next;
             length++;
         }
-        return isEmpty() ? 0 : length;
+        return length;
     }
 }

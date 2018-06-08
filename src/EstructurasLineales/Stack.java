@@ -40,4 +40,16 @@ public class Stack {
         return head;
     }
     
+    public int length() {
+        if (isEmpty())
+            return 0;
+        Node temp = head;
+        int length = 1;
+        while (temp.next != null) {
+            temp = temp.next;
+            length++;
+        }
+        return length;
+    }
+    
 }

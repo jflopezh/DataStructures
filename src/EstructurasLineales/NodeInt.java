@@ -8,4 +8,8 @@ public class NodeInt extends Node{
         this.value = value;
     }
     
+    @Override
+    public NodeInt clone() {
+        return new NodeInt(value);
+    }
 }

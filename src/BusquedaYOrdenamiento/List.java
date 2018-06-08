@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 public class List {
 
     Node head = null;
-    int size;
+    public int size;
 
     public boolean isEmpty() {
         return head == null;
@@ -164,6 +164,20 @@ public class List {
             lessSubArray.addList(greaterSubArray);
             
             return lessSubArray;
+        }
+    }
+
+    public int indexOf(Node node) {
+        if (isEmpty()) {
+            return -1;
+        } else {
+            Node temp = head;
+            int pos = 0;
+            while (temp.next != null) {
+                if (temp.id == node.id) return pos; else pos ++;
+                temp = temp.next;
+            }
+            return -1;
         }
     }
 

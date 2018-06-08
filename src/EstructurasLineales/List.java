@@ -6,7 +6,7 @@ import java.io.OutputStreamWriter;
 
 public class List {
 
-    Node head = null;
+    public Node head = null;
 
     public boolean isEmpty() {
         return head == null;
@@ -58,7 +58,7 @@ public class List {
     }
     
     public void deleteAtPosition(int position) {
-        if (isEmpty()) {
+        if (isEmpty() || position > this.length() - 1) {
             return;
         } else if (this.length() == 1)
             head = null;
@@ -105,5 +105,131 @@ public class List {
         }
         return length;
     }
+    
+    public List cloneList() {
+        List clone = new List();
+        clone.head = head.clone();
+        Node temp = clone.head;
+        while (temp != null) {
+            temp.next = temp.next.clone();
+            temp = temp.next;
+        }
+        return clone;
+    }
+    
+    public List reverse() {
+        List reverse = new List();
+        Node temp = head;
+        while (temp != null) {
+            reverse.insertAtBegin(temp.clone());
+            temp = temp.next;
+        }
+        return reverse;
+    }
+    
+    public Node binarySearch(int id) {
+        int lowerBound = 0, upperBound = length() - 1, index = -1, middlePoint;
+        
+        while (lowerBound < upperBound) {
+            middlePoint = (upperBound + lowerBound) / 2;
+            if (id == ((NodeInt) get(middlePoint)).value) {
+                index = middlePoint;
+                break;
+            } else if (id < ((NodeInt) get(middlePoint)).value)
+                upperBound = middlePoint - 1;
+            else
+                lowerBound = middlePoint + 1;
+        }
+        
+        if (lowerBound == upperBound && ((NodeInt) get(lowerBound)).value == id)
+            index = lowerBound;
+        
+        return get(index);
+    }
+    
+    public Node binarySearchRecursive(int id, int lB, int uB) {
+        int middlePoint = (lB + uB) / 2;
+        int tempId = ((NodeInt) get(middlePoint)).value;
+        if (lB == uB)
+            if (id == tempId)
+                return get(middlePoint);
+            else
+                return null;
+        else
+            if (id == tempId)
+                return get(middlePoint);
+            else
+                if (id < tempId)
+                    return binarySearchRecursive(id, lB, middlePoint - 1);
+                else
+                    return binarySearchRecursive(id, middlePoint + 1, uB);
+    }
+    
+    public List quickSort(List unsorted) {
+        if (unsorted.length() <= 1) {
+            return unsorted;
+        } else {
+            Node pivot = unsorted.head;
+            List lessSubArray = new List();
+            List greaterSubArray = new List();
+            Node temp = unsorted.head.next;
+            
+            while (temp != null) {
+                if (((NodeInt) temp).value < ((NodeInt) pivot).value)
+                    lessSubArray.insertAtEnd(temp.clone());
+                else
+                    greaterSubArray.insertAtEnd(temp.clone());
+                
+                temp = temp.next;
+            }
+            
+            lessSubArray = quickSort(lessSubArray);
+            greaterSubArray = quickSort(greaterSubArray);
+            
+            lessSubArray.insertAtEnd(pivot.clone());
+            lessSubArray.insertAtEnd(greaterSubArray.head);
+            
+            return lessSubArray;
+        }
+    }
 
+    public int indexOf(NodeInt node) {
+        if (isEmpty()) {
+            return -1;
+        } else {
+            Node temp = head;
+            int pos = 0;
+            while (temp.next != null) {
+                if (((NodeInt) temp).value == node.value) return pos; else pos ++;
+                temp = temp.next;
+            }
+            return -1;
+        }
+    }
+    
+    public List sublist(int beginIndex, int endIndex) {
+        if (endIndex > length() - 1 && beginIndex < 0) {
+            return null;
+        }
+        List sublist = new List();
+        Node temp = this.get(beginIndex);
+        for (int i = 0; i < endIndex - beginIndex; i++) {
+            sublist.insertAtEnd(temp);
+            temp = temp.next;
+        }
+        return sublist;
+    }
+    
+    public List sublist(int beginIndex) {
+        if (beginIndex < 0) {
+            return null;
+        }
+        List sublist = new List();
+        Node temp = this.get(beginIndex);
+        while (temp != null) {
+            sublist.insertAtEnd(temp);
+            temp = temp.next;
+        }
+        return sublist;
+    }
 }

@@ -30,13 +30,15 @@ public class MonkAndPhilosophersStone {
                 monkBag.push(coin);
                 worthMonkBag += coin.value;
             } else if (instruction.equals("Remove")) {
-                monkBag.pop();
+                worthMonkBag -= ((NodeInt) monkBag.pop()).value;
             }
             
-            if (worthMonkBag == X) {
-                
-            }
+            if (worthMonkBag == X) 
+                System.out.println(monkBag.length());
         }
+        
+        if (worthMonkBag != X)
+            System.out.println(-1);
     }
     
 }
