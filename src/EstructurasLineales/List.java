@@ -58,14 +58,20 @@ public class List {
     }
     
     public void deleteAtPosition(int position) {
-        Node temp = head;
-        for (int i = 0; i < position - 1; i++) {
-            temp = temp.next;
+        if (isEmpty()) {
+            return;
+        } else if (this.length() == 1)
+            head = null;
+        else {
+            Node temp = head;
+            for (int i = 0; i < position - 1; i++) {
+                temp = temp.next;
+            }
+            Node temp2 = temp.next;
+            temp.next = temp.next.next;
+            temp2 = null;
+            System.gc();
         }
-        Node temp2 = temp.next;
-        temp.next = temp.next.next;
-        temp2 = null;
-        System.gc();
     }
 
     public void deleteAtEnd() {
@@ -89,13 +95,15 @@ public class List {
     }
     
     public int length() {
+        if (isEmpty())
+            return 0;
         Node temp = head;
         int length = 1;
         while (temp.next != null) {
             temp = temp.next;
             length++;
         }
-        return isEmpty() ? 0 : length;
+        return length;
     }
 
 }
